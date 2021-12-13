@@ -28,14 +28,17 @@ end
    #require "tsdl-image"
    in the toplevel, see
    https://github.com/ocamllabs/ocaml-ctypes/issues/70 *)
-let foreign name typ =
+let dllib =
   let filename =
     match Build_config.system with
       | "macosx" -> "libSDL2_image-2.0.0.dylib"
       | _ -> "libSDL2_image-2.0.so.0"
   in
-  foreign name typ ~from:Dl.(dlopen ~filename
-                               ~flags:[RTLD_NOW])
+  Dl.(dlopen ~filename ~flags:[RTLD_NOW])
+
+let foreign name typ =
+  foreign name typ ~from:dllib
+
 let init =
   foreign "IMG_Init" (uint32_t @-> returning uint32_t)
 
