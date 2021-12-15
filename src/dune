@@ -4,7 +4,12 @@
   (modules tsdl_image build_config)
   (private_modules build_config)
   (libraries ctypes tsdl)
-  (c_library_flags -lSDL2_image))
+  (c_library_flags (:include c_library_flags.sexp)))
+
+(rule
+ (targets c_library_flags.sexp)
+ (action
+  (run ../config/discover.exe)))
 
 (rule
   (target build_config.ml)
@@ -12,3 +17,4 @@
     (with-stdout-to
       %{target}
       (echo "let system = \"%{system}\""))))
+
