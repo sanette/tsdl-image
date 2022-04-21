@@ -35,3 +35,4 @@ Starting from 0.3, the library name is the same as the opam package
 name `tsdl-image`. (The library name used to be `tsdl_image`, which
 was confusing).
 
+## ocaml-ci?
