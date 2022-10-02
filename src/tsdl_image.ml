@@ -1,3 +1,6 @@
+(*---------------------------------------------------------------------------
+   Copyright (c) 2016 The tsdl-image programmers. All rights reserved.
+ ---------------------------------------------------------------------------*)
 open Ctypes
 open Foreign
 open Tsdl
@@ -10,6 +13,8 @@ let error () = Error (`Msg (Sdl.get_error ()))
 
 let bool =
   view ~read:((<>)0) ~write:(fun b -> compare b false) int
+
+(* TODO SDL_IMAGE_VERSION *)
 
 module Init = struct
   type t = Unsigned.uint32
