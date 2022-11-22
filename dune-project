@@ -1,5 +1,5 @@
 (lang dune 2.7)
-(version "0.3.2")
+(version "0.4")
 (name tsdl-image)
 (generate_opam_files true)
 (license BSD-3-Clause)
