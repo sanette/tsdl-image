@@ -1,3 +1,5 @@
+# 0.5 2022/11/30 trying -Wl,--no-as-needed...
+
 # 0.4 2022/11/22 Bug fix (calling ocaml on an *.ml file)
 
 You can now (again) directly run a "toplevel file" with `ocaml`, for
