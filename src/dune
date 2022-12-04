@@ -5,12 +5,7 @@
  (private_modules build_config)
  (libraries tsdl)
  (c_library_flags
-  "-Wl,-no-as-needed" (:include c_library_flags.sexp))
- (foreign_stubs
-  (language c)
-  (names empty)
-  (flags (:include c_flags.sexp)))
-)
+  (:include c_library_flags.sexp)))
 
 (rule
  (targets c_flags.sexp c_library_flags.sexp)

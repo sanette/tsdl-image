@@ -27,6 +27,31 @@ module Image = struct
     let webp = i 8
   end
 
+  (* This "hack" seems to be necessary for linux if you want to use
+     #require "tsdl-image"
+     in the toplevel, see
+     https://github.com/ocamllabs/ocaml-ctypes/issues/70 *)
+  let dllib : Dl.library =
+    print_endline ("Target = " ^ Build_config.system);
+    let env = try Sys.getenv "LIBSLD2_PATH" with Not_found -> "" in
+    let filename, path =
+      match Build_config.system with
+      | "macosx" -> ("libSDL2_image-2.0.0.dylib", [ "/opt/homebrew/lib/" ])
+      | _ ->
+          ( "libSDL2_image-2.0.so.0",
+            [ "/usr/lib/x86_64-linux-gnu/"; "/usr/local/lib" ] )
+    in
+    let rec loop = function
+      | [] -> failwith ("Cannot find " ^ filename ^ ", please set LIBSDL2_PATH")
+      | dir :: rest -> (
+          let filename =
+            if dir = "" then filename else Filename.concat dir filename
+          in
+          try Dl.(dlopen ~filename ~flags:[ RTLD_NOW ]) with _ -> loop rest)
+    in
+    loop (env :: path)
+
+  let foreign = foreign ~from:dllib
   let init = foreign "IMG_Init" (uint32_t @-> returning uint32_t)
   let quit = foreign "IMG_Quit" (void @-> returning void)
 

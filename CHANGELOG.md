@@ -1,4 +1,4 @@
-# 0.5 2022/11/30 trying -Wl,--no-as-needed...
+# 0.5 2022/11/30 trying to autodetect library path
 
 # 0.4 2022/11/22 Bug fix (calling ocaml on an *.ml file)
 
