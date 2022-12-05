@@ -1,17 +1,20 @@
-(executable
+(test
  (name test)
  (modules test)
  (libraries bigarray tsdl tsdl-image)
+ (deps "what.png")
  (modes exe))
 
 (alias
  (name buildtest)
- (deps "what.png" test.exe))	
+ (deps test.exe))
 
 (rule
- (alias runtest)	
- (action (run %{exe:test.exe})))	
-  
+ (alias runtest)
+ (action
+  (run %{exe:test.exe})))
+
 (rule
  (alias runtest)
- (action (run ocaml "top.ml")))
+ (action
+  (run ocaml "top.ml")))
