@@ -4,18 +4,3 @@
  (libraries bigarray tsdl tsdl-image)
  (deps "what.png")
  (modes exe))
-
-(alias
- (name buildtest)
- (deps test.exe))
-
-(rule
- (alias runtest)
- (action
-  (run %{exe:test.exe})))
-
-(rule
- (alias runtest)
- (deps "top.ml")
- (action
-  (run ocaml "top.ml")))
