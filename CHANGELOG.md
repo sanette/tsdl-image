@@ -1,5 +1,7 @@
 # 0.5 2022/11/30 trying to autodetect library path
 
+add workflow for github actions for testing dynamic libraries from bytecode
+
 # 0.4 2022/11/22 Bug fix (calling ocaml on an *.ml file)
 
 You can now (again) directly run a "toplevel file" with `ocaml`, for
