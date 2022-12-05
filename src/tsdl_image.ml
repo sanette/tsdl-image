@@ -48,8 +48,8 @@ module Image = struct
       match Build_config.system with
       | "macosx" -> ("libSDL2_image-2.0.0.dylib", [ "/opt/homebrew/lib/" ])
       | _ ->
-        ( "libSDL2_image-2.0.so.0",
-          [ "/usr/lib/x86_64-linux-gnu/"; "/usr/local/lib" ] )
+          ( "libSDL2_image-2.0.so.0",
+            [ "/usr/lib/x86_64-linux-gnu/"; "/usr/local/lib" ] )
     in
     let rec loop = function
       | [] -> None
@@ -62,12 +62,14 @@ module Image = struct
     in
     match loop (env :: path) with
     | Some f -> Some f
-    | None -> (* We execute pkg_config only if everything else failed. *)
-      match pkg_config () with
-      | Some dir -> loop [ dir ]
-      | None ->
-        print_endline ("Cannot find " ^ filename ^ ", please set LIBSDL2_PATH");
-        None
+    | None -> (
+        (* We execute pkg_config only if everything else failed. *)
+        match pkg_config () with
+        | Some dir -> loop [ dir ]
+        | None ->
+            print_endline
+              ("Cannot find " ^ filename ^ ", please set LIBSDL2_PATH");
+            None)
 
   let foreign = foreign ?from
   let init = foreign "IMG_Init" (uint32_t @-> returning uint32_t)
