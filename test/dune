@@ -16,5 +16,6 @@
 
 (rule
  (alias runtest)
+ (deps "top.ml")
  (action
   (run ocaml "top.ml")))
