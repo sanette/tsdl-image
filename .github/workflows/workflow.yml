@@ -39,7 +39,9 @@ jobs:
 
       - run: opam install .
 
-      - run: cd test; $(opam var ocaml:bin)/ocaml top.ml
+      - run: opam install utop
+
+      - run: cd test; utop top.ml
 
 
   lint-fmt:
