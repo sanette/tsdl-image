@@ -18,6 +18,10 @@ Via [opam](https://opam.ocaml.org/):
 
     opam install tsdl-image
 
+## Example
+
+See [test/test.ml](https://github.com/sanette/tsdl-image/blob/master/test/test.ml)
+
 ## Documentation
 
 Documentation is

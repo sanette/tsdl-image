@@ -3,7 +3,7 @@ opam-version: "2.0"
 version: "0.5"
 synopsis: "SDL2_Image bindings to go with Tsdl"
 description:
-  "Tsdl_image provides bindings to SDL2_Image intended to be used with Tsdl."
+  "tsdl-image provides bindings to SDL2_Image intended to be used with Tsdl."
 maintainer: ["Vu Ngoc San <san.vu-ngoc@laposte.net>"]
 authors: ["Julian Squires <julian@cipht.net>"]
 license: "BSD-3-Clause"

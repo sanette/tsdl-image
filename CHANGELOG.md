@@ -1,6 +1,7 @@
 # 0.5 2022/11/30 trying to autodetect library path
 
-add workflow for github actions for testing dynamic libraries from bytecode
+And add workflow for github actions for testing dynamic libraries from
+bytecode.
 
 # 0.4 2022/11/22 Bug fix (calling ocaml on an *.ml file)
 
@@ -13,6 +14,7 @@ instance
 #require "tsdl-image";;
 Tsdl_image.Image.(init Init.empty) |> ignore
 ```
+Thanks @anentropic for reporting on MacOS.
 
 # 0.3 Change library name (BREAKING)
 
@@ -20,5 +22,5 @@ Starting from 0.3, the library name is the same as the opam package
 name `tsdl-image`. (The library name used to be `tsdl_image`, which was
 confusing).
 
-# new maintainer is sanette
+# 2021 new maintainer is sanette
 https://github.com/sanette/tsdl-image

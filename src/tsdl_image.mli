@@ -1,13 +1,14 @@
 (*---------------------------------------------------------------------------
-   Copyright (c) 2016 The tsdl-image programmers. All rights reserved.
+   Copyright (c) 2016-2023 The tsdl-image programmers. All rights reserved.
   ---------------------------------------------------------------------------*)
 
 (** SDL2_image bindings
 
     {b References}
 
-    - {{:https://www.libsdl.org/projects/SDL_image/docs/index.html} SDL_image
-      API} *)
+    - {{:https://github.com/sanette/tsdl-image} source on github}
+
+    - {{:https://wiki.libsdl.org/SDL_image/} SDL_image API} *)
 
 module Image : sig
   type 'a result = 'a Tsdl.Sdl.result

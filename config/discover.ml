@@ -1,15 +1,16 @@
 module C = Configurator.V1
 
 let () =
+  let package = "SDL2_image" in
   C.main ~name:"foo" (fun c ->
       let default : C.Pkg_config.package_conf =
-        { libs = [ "-lSDL2_image" ]; cflags = [] }
+        { libs = [ "-l" ^ package ]; cflags = [] }
       in
       let conf =
         match C.Pkg_config.get c with
         | None -> default
         | Some pc -> (
-            match C.Pkg_config.query pc ~package:"SDL2_image" with
+            match C.Pkg_config.query pc ~package with
             | None -> default
             | Some deps -> deps)
       in
