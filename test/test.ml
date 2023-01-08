@@ -7,6 +7,7 @@ let ( >>= ) o f =
   | Ok a -> f a
 
 let () =
+  print_endline "Running test";
   ignore (Sdl.init Sdl.Init.everything);
   let flags = Image.Init.(jpg + png) in
   assert (Image.init flags = flags);
@@ -22,4 +23,5 @@ let () =
   assert (Image.is_format Image.Png f);
   Sdl.rw_close f |> ignore;
   Image.quit ();
-  Sdl.quit ()
+  Sdl.quit ();
+  print_endline "Quitting test"
