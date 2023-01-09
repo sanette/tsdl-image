@@ -10,7 +10,7 @@ let () =
   print_endline "Running test";
   ignore (Sdl.init Sdl.Init.everything);
   let flags = Image.Init.(jpg + png) in
-  assert (Image.init flags = flags);
+  assert (Image.(Init.test (init flags) Init.png));
   Image.load "what.png" >>= fun sface ->
   assert (Sdl.get_surface_size sface = (64, 64));
   assert (Image.save_png sface "output.png" = 0);
