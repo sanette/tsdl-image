@@ -2,9 +2,9 @@
 
 dune build @doc
 rsync -avz --delete _build/default/_doc/_html/tsdl-image/Tsdl_image/ docs
-for file in "docs/index.html" "docs/Image/index.html"
+for file in "docs/index.html" "docs/Image/index.html"  "docs/Image/Init/index.html"
 do
-  sed -i "s|../../||g" $file
+  sed -i 's|"../../|"|g' $file
   sed -i "s|<span>&#45;&gt;</span>|<span class=\"arrow\">→</span>|g" $file
 done
 

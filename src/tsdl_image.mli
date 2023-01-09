@@ -29,11 +29,11 @@ module Image : sig
   end
 
   val init : Init.t -> Init.t
-  (** {{:https://www.libsdl.org/projects/SDL_image/docs/SDL_image_8.html#SEC8}
+  (** {{:https://wiki.libsdl.org/SDL_image/IMG_Init}
       IMG_Init} *)
 
   val quit : unit -> unit
-  (** {{:https://www.libsdl.org/projects/SDL_image/docs/SDL_image_9.html#SEC9}
+  (** {{:https://wiki.libsdl.org/SDL_image/IMG_Quit}
       IMG_Quit} *)
 
   type format =
@@ -56,16 +56,16 @@ module Image : sig
   (** {1 Loading} *)
 
   val load : string -> Tsdl.Sdl.surface result
-  (** {{:https://www.libsdl.org/projects/SDL_image/docs/SDL_image_11.html#SEC11}
+  (** {{:https://wiki.libsdl.org/SDL_image/IMG_Load}
       IMG_Load} *)
 
   val load_rw : Tsdl.Sdl.rw_ops -> bool -> Tsdl.Sdl.surface result
-  (** {{:https://www.libsdl.org/projects/SDL_image/docs/SDL_image_12.html#SEC12}
+  (** {{:https://wiki.libsdl.org/SDL_image/IMG_Load_RW}
       IMG_Load_RW} *)
 
   val load_typed_rw :
     Tsdl.Sdl.rw_ops -> bool -> format -> Tsdl.Sdl.surface result
-  (** {{:https://www.libsdl.org/projects/SDL_image/docs/SDL_image_13.html#SEC13}
+  (** {{:https://wiki.libsdl.org/SDL_image/IMG_LoadTyped_RW}
       IMG_LoadTyped_RW} *)
 
   val load_texture : Tsdl.Sdl.renderer -> string -> Tsdl.Sdl.texture result
@@ -83,7 +83,7 @@ module Image : sig
   val load_format_rw : format -> Tsdl.Sdl.rw_ops -> Tsdl.Sdl.surface result
 
   val read_xpm_from_array : string -> Tsdl.Sdl.surface result
-  (** {{:https://www.libsdl.org/projects/SDL_image/docs/SDL_image_28.html#SEC28}
+  (** {{:https://wiki.libsdl.org/SDL_image/IMG_ReadXPMFromArray}
       IMG_ReadXPMFromArray} *)
 
   (** {1 Saving} *)
@@ -94,7 +94,7 @@ module Image : sig
   (** {1 Info} *)
 
   val is_format : format -> Tsdl.Sdl.rw_ops -> bool
-  (** {{:https://www.libsdl.org/projects/SDL_image/docs/SDL_image_29.html#SEC29}
+  (** {{:https://wiki.libsdl.org/SDL_image/IMG_isAVIF#related_functions}
       IMG_is*}
 
       Note that, uniquely, [is_format Tga] will throw an exception, as SDL_image
