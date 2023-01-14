@@ -29,12 +29,10 @@ module Image : sig
   end
 
   val init : Init.t -> Init.t
-  (** {{:https://wiki.libsdl.org/SDL_image/IMG_Init}
-      IMG_Init} *)
+  (** {{:https://wiki.libsdl.org/SDL_image/IMG_Init} IMG_Init} *)
 
   val quit : unit -> unit
-  (** {{:https://wiki.libsdl.org/SDL_image/IMG_Quit}
-      IMG_Quit} *)
+  (** {{:https://wiki.libsdl.org/SDL_image/IMG_Quit} IMG_Quit} *)
 
   type format =
     | Ico
@@ -56,17 +54,14 @@ module Image : sig
   (** {1 Loading} *)
 
   val load : string -> Tsdl.Sdl.surface result
-  (** {{:https://wiki.libsdl.org/SDL_image/IMG_Load}
-      IMG_Load} *)
+  (** {{:https://wiki.libsdl.org/SDL_image/IMG_Load} IMG_Load} *)
 
   val load_rw : Tsdl.Sdl.rw_ops -> bool -> Tsdl.Sdl.surface result
-  (** {{:https://wiki.libsdl.org/SDL_image/IMG_Load_RW}
-      IMG_Load_RW} *)
+  (** {{:https://wiki.libsdl.org/SDL_image/IMG_Load_RW} IMG_Load_RW} *)
 
   val load_typed_rw :
     Tsdl.Sdl.rw_ops -> bool -> format -> Tsdl.Sdl.surface result
-  (** {{:https://wiki.libsdl.org/SDL_image/IMG_LoadTyped_RW}
-      IMG_LoadTyped_RW} *)
+  (** {{:https://wiki.libsdl.org/SDL_image/IMG_LoadTyped_RW} IMG_LoadTyped_RW} *)
 
   val load_texture : Tsdl.Sdl.renderer -> string -> Tsdl.Sdl.texture result
 
