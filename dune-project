@@ -12,7 +12,7 @@
  (synopsis "SDL2_Image bindings to go with Tsdl")
  (description
    "tsdl-image provides bindings to SDL2_Image intended to be used with Tsdl.")
- (tags ("tsdl" "SDL" "images"))
+ (tags ("tsdl" "SDL" "images" "graphics" "bindings"))
  (depends
   (ocaml (>= 4.03))
   (tsdl (>= 0.9.1))

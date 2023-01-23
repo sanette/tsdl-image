@@ -7,7 +7,7 @@ description:
 maintainer: ["Vu Ngoc San <san.vu-ngoc@laposte.net>"]
 authors: ["Julian Squires <julian@cipht.net>"]
 license: "BSD-3-Clause"
-tags: ["tsdl" "SDL" "images"]
+tags: ["tsdl" "SDL" "images" "graphics" "bindings"]
 homepage: "https://github.com/sanette/tsdl-image"
 bug-reports: "https://github.com/sanette/tsdl-image/issues"
 depends: [

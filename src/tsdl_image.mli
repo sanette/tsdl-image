@@ -2,14 +2,13 @@
    Copyright (c) 2016-2023 The tsdl-image programmers. All rights reserved.
   ---------------------------------------------------------------------------*)
 
-(** SDL2_image bindings
+(** SDL2_image bindings for use with Tsdl
 
     {b References}
 
     - {{:https://github.com/sanette/tsdl-image} source on github}
 
     - {{:https://wiki.libsdl.org/SDL_image/} SDL_image API} *)
-
 module Image : sig
   type 'a result = 'a Tsdl.Sdl.result
 
