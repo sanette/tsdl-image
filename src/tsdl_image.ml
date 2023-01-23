@@ -43,10 +43,28 @@ module Image = struct
      https://github.com/ocamllabs/ocaml-ctypes/issues/70 *)
   let from : Dl.library option =
     Sdl.log "Loading Sdl_image, Target = %s" Build_config.system;
-    let env = try Sys.getenv "LIBSLD2_PATH" with Not_found -> "" in
+    let env = try Sys.getenv "LIBSDL2_PATH" with Not_found -> "" in
     let filename, path =
       match Build_config.system with
       | "macosx" -> ("libSDL2_image-2.0.0.dylib", [ "/opt/homebrew/lib/" ])
+      | "win32" | "win64" ->
+          (* On native Windows DLLs are loaded from the PATH *)
+          ("SDL2_image.dll", [ "" ])
+      | "cygwin" | "mingw" ->
+          (* For Windows POSIX emulators (Cygwin and MSYS2), hardcoded
+             locations are available in addition to the PATH *)
+          ( "SDL2_image.dll",
+            [
+              "";
+              "/usr/x86_64-w64-mingw32/sys-root/mingw/bin";
+              "/usr/i686-w64-mingw32/sys-root/mingw/bin";
+              "/clangarm64/bin";
+              "/clang64/bin";
+              "/clang32/bin";
+              "/ucrt64/bin";
+              "/mingw64/bin";
+              "/mingw32/bin";
+            ] )
       | _ ->
           ( "libSDL2_image-2.0.so.0",
             [ "/usr/lib/x86_64-linux-gnu/"; "/usr/local/lib" ] )

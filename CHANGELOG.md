@@ -1,3 +1,8 @@
+# Pending
+
+* Fix typo environment lookup of `LIBSLD2_PATH` to be correct `LIBSDL2_PATH`
+* Locate `SDL2_image.dll` on Windows
+
 # 0.5 2022/11/30 trying to autodetect library path
 
 And add workflow for github actions for testing dynamic libraries from
