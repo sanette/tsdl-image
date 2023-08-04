@@ -2,7 +2,8 @@
 
 * Fix typo environment lookup of `LIBSLD2_PATH` to be correct `LIBSDL2_PATH`
 * Locate `SDL2_image.dll` on Windows
-* Use SDL "system" category to log "Loading Sdl_image" message
+* Use SDL "system" category to log "Loading Sdl_image" message (we now
+  log only for dev versions)
 
 # 0.5 2022/11/30 trying to autodetect library path
 
