@@ -7,6 +7,7 @@ open Tsdl
 
 module Image = struct
   type 'a result = 'a Sdl.result
+
   let debug = false (* set this to false before release *)
   let error () = Error (`Msg (Sdl.get_error ()))
   let bool = view ~read:(( <> ) 0) ~write:(fun b -> compare b false) int
@@ -42,8 +43,10 @@ module Image = struct
      in the toplevel, see
      https://github.com/ocamllabs/ocaml-ctypes/issues/70 *)
   let from : Dl.library option =
-    if debug then Sdl.(log_info Log.category_system
-                         "Loading Sdl_image, Target = %s" Build_config.system);
+    (if debug then
+       Sdl.(
+         log_info Log.category_system "Loading Sdl_image, Target = %s"
+           Build_config.system));
     let env = try Sys.getenv "LIBSDL2_PATH" with Not_found -> "" in
     let filename, path =
       match Build_config.system with

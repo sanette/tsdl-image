@@ -78,7 +78,7 @@ module Image : sig
 
   val read_xpm_from_array : string -> Tsdl.Sdl.surface result
   (** {{:https://wiki.libsdl.org/SDL_image/IMG_ReadXPMFromArray}
-      IMG_ReadXPMFromArray} *)
+        IMG_ReadXPMFromArray} *)
 
   (** {1 Saving} *)
 
@@ -89,7 +89,7 @@ module Image : sig
 
   val is_format : format -> Tsdl.Sdl.rw_ops -> bool
   (** {{:https://wiki.libsdl.org/SDL_image/IMG_isAVIF#related_functions}
-      IMG_is*}
+        IMG_is*}
 
       Note that, uniquely, [is_format Tga] will throw an exception, as SDL_image
       does not support testing if a file is in Targa format. *)
