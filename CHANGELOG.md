@@ -1,9 +1,9 @@
-# Pending
+# 0.6 2023/08/05 hide startup log
 
 * Fix typo environment lookup of `LIBSLD2_PATH` to be correct `LIBSDL2_PATH`
 * Locate `SDL2_image.dll` on Windows
 * Use SDL "system" category to log "Loading Sdl_image" message (we now
-  log only for dev versions)
+  log only for dev versions).
 
 # 0.5 2022/11/30 trying to autodetect library path
 
