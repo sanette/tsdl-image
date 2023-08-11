@@ -26,6 +26,8 @@ module Image = struct
     let png = i 2
     let tif = i 4
     let webp = i 8
+    let jxl = i 16
+    let avif = i 32
   end
 
   (* pkg-config --variable=libdir SDL2_image *)
@@ -135,15 +137,19 @@ module Image = struct
     foreign "IMG_Load_RW" (rw_ops @-> bool @-> returning surface_result)
 
   type format =
+    | Avif
     | Ico
     | Cur
     | Bmp
     | Gif
     | Jpg
+    | Jxl
     | Lbm
     | Pcx
     | Png
     | Pnm
+    | Svg
+    | Qoi
     | Tif
     | Xcf
     | Xpm
@@ -152,15 +158,19 @@ module Image = struct
     | Tga
 
   let string_of_format = function
+    | Avif -> "ACIF"
     | Ico -> "ICO"
     | Cur -> "CUR"
     | Bmp -> "BMP"
     | Gif -> "GIF"
     | Jpg -> "JPG"
+    | Jxl -> "JXL"
     | Lbm -> "LBM"
     | Pcx -> "PCX"
     | Png -> "PNG"
     | Pnm -> "PNM"
+    | Svg -> "SVG"
+    | Qoi -> "QOI"
     | Tif -> "TIF"
     | Xcf -> "XCF"
     | Xpm -> "XPM"
@@ -188,15 +198,19 @@ module Image = struct
   let load_texture_typed_rw r o b f =
     load_texture_typed_rw r o b (string_of_format f)
 
+  let is_avif = foreign "IMG_isAVIF" (rw_ops @-> returning bool)
   let is_ico = foreign "IMG_isICO" (rw_ops @-> returning bool)
   let is_cur = foreign "IMG_isCUR" (rw_ops @-> returning bool)
   let is_bmp = foreign "IMG_isBMP" (rw_ops @-> returning bool)
   let is_gif = foreign "IMG_isGIF" (rw_ops @-> returning bool)
   let is_jpg = foreign "IMG_isJPG" (rw_ops @-> returning bool)
+  let is_jxl = foreign "IMG_isJXL" (rw_ops @-> returning bool)
   let is_lbm = foreign "IMG_isLBM" (rw_ops @-> returning bool)
   let is_pcx = foreign "IMG_isPCX" (rw_ops @-> returning bool)
   let is_png = foreign "IMG_isPNG" (rw_ops @-> returning bool)
   let is_pnm = foreign "IMG_isPNM" (rw_ops @-> returning bool)
+  let is_svg = foreign "IMG_isSVG" (rw_ops @-> returning bool)
+  let is_qoi = foreign "IMG_isQOI" (rw_ops @-> returning bool)
   let is_tif = foreign "IMG_isTIF" (rw_ops @-> returning bool)
   let is_xcf = foreign "IMG_isXCF" (rw_ops @-> returning bool)
   let is_xpm = foreign "IMG_isXPM" (rw_ops @-> returning bool)
@@ -205,21 +219,28 @@ module Image = struct
 
   let is_format fmt =
     match fmt with
+    | Avif -> is_avif
     | Ico -> is_ico
     | Cur -> is_cur
     | Bmp -> is_bmp
     | Gif -> is_gif
     | Jpg -> is_jpg
+    | Jxl -> is_jxl
     | Lbm -> is_lbm
     | Pcx -> is_pcx
     | Png -> is_png
     | Pnm -> is_pnm
+    | Svg -> is_svg
+    | Qoi -> is_qoi
     | Tif -> is_tif
     | Xcf -> is_xcf
     | Xpm -> is_xpm
     | Xv -> is_xv
     | Webp -> is_webp
     | Tga -> failwith "TGA cannot safely be detected"
+
+  let load_avif_rw =
+    foreign "IMG_LoadAVIF_RW" (rw_ops @-> returning surface_result)
 
   let load_ico_rw =
     foreign "IMG_LoadICO_RW" (rw_ops @-> returning surface_result)
@@ -236,6 +257,9 @@ module Image = struct
   let load_jpg_rw =
     foreign "IMG_LoadJPG_RW" (rw_ops @-> returning surface_result)
 
+  let load_jxl_rw =
+    foreign "IMG_LoadJXL_RW" (rw_ops @-> returning surface_result)
+
   let load_lbm_rw =
     foreign "IMG_LoadLBM_RW" (rw_ops @-> returning surface_result)
 
@@ -250,6 +274,12 @@ module Image = struct
 
   let load_tga_rw =
     foreign "IMG_LoadTGA_RW" (rw_ops @-> returning surface_result)
+
+  let load_svg_rw =
+    foreign "IMG_LoadSVG_RW" (rw_ops @-> returning surface_result)
+
+  let load_qoi_rw =
+    foreign "IMG_LoadQOI_RW" (rw_ops @-> returning surface_result)
 
   let load_tif_rw =
     foreign "IMG_LoadTIF_RW" (rw_ops @-> returning surface_result)
@@ -266,21 +296,29 @@ module Image = struct
     foreign "IMG_LoadWEBP_RW" (rw_ops @-> returning surface_result)
 
   let load_format_rw = function
+    | Avif -> load_avif_rw
     | Ico -> load_ico_rw
     | Cur -> load_cur_rw
     | Bmp -> load_bmp_rw
     | Gif -> load_gif_rw
     | Jpg -> load_jpg_rw
+    | Jxl -> load_jxl_rw
     | Lbm -> load_lbm_rw
     | Pcx -> load_pcx_rw
     | Png -> load_png_rw
     | Pnm -> load_pnm_rw
+    | Svg -> load_svg_rw
+    | Qoi -> load_qoi_rw
     | Tif -> load_tif_rw
     | Xcf -> load_xcf_rw
     | Xpm -> load_xpm_rw
     | Xv -> load_xv_rw
     | Webp -> load_webp_rw
     | Tga -> load_tga_rw
+
+  let load_sized_svg_rw =
+    foreign "IMG_LoadSizedSVG_RW"
+      (rw_ops @-> int @-> int @-> returning surface_result)
 
   let read_xpm_from_array =
     foreign "IMG_ReadXPMFromArray" (string @-> returning surface_result)
@@ -289,4 +327,11 @@ module Image = struct
 
   let save_png_rw =
     foreign "IMG_SavePNG_RW" (surface @-> rw_ops @-> bool @-> returning int)
+
+  let save_jpg =
+    foreign "IMG_SaveJPG" (surface @-> string @-> int @-> returning int)
+
+  let save_jpg_rw =
+    foreign "IMG_SaveJPG_RW"
+      (surface @-> rw_ops @-> bool @-> int @-> returning int)
 end
