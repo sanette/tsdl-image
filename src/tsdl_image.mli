@@ -82,7 +82,6 @@ module Image : sig
 
   val load_format_rw : format -> Tsdl.Sdl.rw_ops -> Tsdl.Sdl.surface result
 
-
   val read_xpm_from_array : string -> Tsdl.Sdl.surface result
   (** {{:https://wiki.libsdl.org/SDL_image/IMG_ReadXPMFromArray}
         IMG_ReadXPMFromArray} *)
