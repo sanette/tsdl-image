@@ -43,6 +43,7 @@ module Image : sig
     | Pcx
     | Png
     | Pnm
+    | Svg
     | Tif
     | Xcf
     | Xpm
@@ -63,9 +64,12 @@ module Image : sig
   (** {{:https://wiki.libsdl.org/SDL_image/IMG_LoadTyped_RW} IMG_LoadTyped_RW} *)
 
   val load_texture : Tsdl.Sdl.renderer -> string -> Tsdl.Sdl.texture result
+  (** {{:https://wiki.libsdl.org/SDL2_image/IMG_LoadTexture} IMG_LoadTexture} *)
 
   val load_texture_rw :
     Tsdl.Sdl.renderer -> Tsdl.Sdl.rw_ops -> bool -> Tsdl.Sdl.texture result
+  (** {{:https://wiki.libsdl.org/SDL2_image/IMG_LoadTexture_RW}
+        IMG_LoadTexture_RW} *)
 
   val load_texture_typed_rw :
     Tsdl.Sdl.renderer ->
@@ -73,6 +77,8 @@ module Image : sig
     bool ->
     format ->
     Tsdl.Sdl.texture result
+  (** {{:https://wiki.libsdl.org/SDL2_image/IMG_LoadTextureTyped_RW}
+        IMG_LoadTextureTyped_RW} *)
 
   val load_format_rw : format -> Tsdl.Sdl.rw_ops -> Tsdl.Sdl.surface result
 
@@ -83,7 +89,16 @@ module Image : sig
   (** {1 Saving} *)
 
   val save_png : Tsdl.Sdl.surface -> string -> int
+  (** {{:https://wiki.libsdl.org/SDL2_image/IMG_SavePNG} IMG_SavePNG} *)
+
   val save_png_rw : Tsdl.Sdl.surface -> Tsdl.Sdl.rw_ops -> bool -> int
+  (** {{:https://wiki.libsdl.org/SDL2_image/IMG_SavePNG_RW} IMG_SavePNG_RW} *)
+
+  val save_jpg : Tsdl.Sdl.surface -> string -> int -> int
+  (** {{:https://wiki.libsdl.org/SDL2_image/IMG_SaveJPG} IMG_SaveJPG} *)
+
+  val save_jpg_rw : Tsdl.Sdl.surface -> Tsdl.Sdl.rw_ops -> bool -> int -> int
+  (** {{:https://wiki.libsdl.org/SDL2_image/IMG_SaveJPG_RW} IMG_SaveJPG_RW} *)
 
   (** {1 Info} *)
 
