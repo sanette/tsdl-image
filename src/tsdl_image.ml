@@ -158,7 +158,7 @@ module Image = struct
     | Tga
 
   let string_of_format = function
-    | Avif -> "ACIF"
+    | Avif -> "AVIF"
     | Ico -> "ICO"
     | Cur -> "CUR"
     | Bmp -> "BMP"
