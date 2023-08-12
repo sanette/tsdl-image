@@ -14,6 +14,7 @@ let () =
   Image.load "what.png" >>= fun sface ->
   assert (Sdl.get_surface_size sface = (64, 64));
   assert (Image.save_png sface "output.png" = 0);
+  assert (Image.save_jpg sface "output.jpg" 100 = 0);
   Sdl.rw_from_file "what.png" "rb" >>= fun f ->
   assert (false = Image.is_format Image.Ico f);
   assert (false = Image.is_format Image.Bmp f);
