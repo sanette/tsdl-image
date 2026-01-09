@@ -144,6 +144,7 @@ module Image = struct
     | Pcx
     | Png
     | Pnm
+    | Svg
     | Tif
     | Xcf
     | Xpm
@@ -161,6 +162,7 @@ module Image = struct
     | Pcx -> "PCX"
     | Png -> "PNG"
     | Pnm -> "PNM"
+    | Svg -> "SVG"
     | Tif -> "TIF"
     | Xcf -> "XCF"
     | Xpm -> "XPM"
@@ -197,6 +199,7 @@ module Image = struct
   let is_pcx = foreign "IMG_isPCX" (rw_ops @-> returning bool)
   let is_png = foreign "IMG_isPNG" (rw_ops @-> returning bool)
   let is_pnm = foreign "IMG_isPNM" (rw_ops @-> returning bool)
+  let is_svg = foreign "IMG_isSVG" (rw_ops @-> returning bool)
   let is_tif = foreign "IMG_isTIF" (rw_ops @-> returning bool)
   let is_xcf = foreign "IMG_isXCF" (rw_ops @-> returning bool)
   let is_xpm = foreign "IMG_isXPM" (rw_ops @-> returning bool)
@@ -214,6 +217,7 @@ module Image = struct
     | Pcx -> is_pcx
     | Png -> is_png
     | Pnm -> is_pnm
+    | Svg -> is_svg
     | Tif -> is_tif
     | Xcf -> is_xcf
     | Xpm -> is_xpm
@@ -251,6 +255,9 @@ module Image = struct
   let load_tga_rw =
     foreign "IMG_LoadTGA_RW" (rw_ops @-> returning surface_result)
 
+  let load_svg_rw =
+    foreign "IMG_LoadSVG_RW" (rw_ops @-> returning surface_result)
+
   let load_tif_rw =
     foreign "IMG_LoadTIF_RW" (rw_ops @-> returning surface_result)
 
@@ -275,6 +282,7 @@ module Image = struct
     | Pcx -> load_pcx_rw
     | Png -> load_png_rw
     | Pnm -> load_pnm_rw
+    | Svg -> load_svg_rw
     | Tif -> load_tif_rw
     | Xcf -> load_xcf_rw
     | Xpm -> load_xpm_rw
@@ -289,4 +297,11 @@ module Image = struct
 
   let save_png_rw =
     foreign "IMG_SavePNG_RW" (surface @-> rw_ops @-> bool @-> returning int)
+
+  let save_jpg =
+    foreign "IMG_SaveJPG" (surface @-> string @-> int @-> returning int)
+
+  let save_jpg_rw =
+    foreign "IMG_SaveJPG_RW"
+      (surface @-> rw_ops @-> bool @-> int @-> returning int)
 end

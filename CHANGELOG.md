@@ -1,8 +1,13 @@
-# 0.6.1 2026/01/09 filter "-mwindows" flag
+# Pending
 
 * attempt to make it run under Windows: add "-link" before "-mwindows" for mingw
-
-
+* (@linsyking) https://github.com/sanette/tsdl-image/pull/10
+  add functions from SDL_IMAGE 2.0.2
+    IMG_isSVG
+    IMG_LoadSVG_RW
+    IMG_SaveJPG_RW
+    IMG_SaveJPG
+  
 # 0.6 2023/08/05 hide startup log
 
 * Fix typo environment lookup of `LIBSLD2_PATH` to be correct `LIBSDL2_PATH`
