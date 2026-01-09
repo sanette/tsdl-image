@@ -60,7 +60,8 @@ module Image : sig
 
   val load_typed_rw :
     Tsdl.Sdl.rw_ops -> bool -> format -> Tsdl.Sdl.surface result
-  (** {{:https://wiki.libsdl.org/SDL_image/IMG_LoadTyped_RW} IMG_LoadTyped_RW} *)
+  (** {{:https://wiki.libsdl.org/SDL_image/IMG_LoadTyped_RW} IMG_LoadTyped_RW}
+  *)
 
   val load_texture : Tsdl.Sdl.renderer -> string -> Tsdl.Sdl.texture result
 
@@ -78,7 +79,7 @@ module Image : sig
 
   val read_xpm_from_array : string -> Tsdl.Sdl.surface result
   (** {{:https://wiki.libsdl.org/SDL_image/IMG_ReadXPMFromArray}
-        IMG_ReadXPMFromArray} *)
+       IMG_ReadXPMFromArray} *)
 
   (** {1 Saving} *)
 
@@ -89,7 +90,7 @@ module Image : sig
 
   val is_format : format -> Tsdl.Sdl.rw_ops -> bool
   (** {{:https://wiki.libsdl.org/SDL_image/IMG_isAVIF#related_functions}
-        IMG_is*}
+       IMG_is*}
 
       Note that, uniquely, [is_format Tga] will throw an exception, as SDL_image
       does not support testing if a file is in Targa format. *)

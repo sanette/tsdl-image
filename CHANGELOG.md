@@ -1,3 +1,8 @@
+# 0.6.1 2026/01/09 filter "-mwindows" flag
+
+* attempt to make it run under Windows: add "-link" before "-mwindows" for mingw
+
+
 # 0.6 2023/08/05 hide startup log
 
 * Fix typo environment lookup of `LIBSLD2_PATH` to be correct `LIBSDL2_PATH`
