@@ -50,6 +50,7 @@ module Image = struct
            Build_config.system));
     let env = try Sys.getenv "LIBSDL2_PATH" with Not_found -> "" in
     let filename, path =
+      pre ("Build_config.system = " ^ (Build_config.system));
       match Build_config.system with
       | "macosx" -> ("libSDL2_image-2.0.0.dylib", [ "/opt/homebrew/lib/" ])
       | "win32" | "win64" ->
@@ -61,6 +62,7 @@ module Image = struct
           ( "SDL2_image.dll",
             [
               "";
+              "/SDL2/SDL2_image/x86_64-w64-mingw32/bin";
               "/usr/x86_64-w64-mingw32/sys-root/mingw/bin";
               "/usr/i686-w64-mingw32/sys-root/mingw/bin";
               "/clangarm64/bin";
@@ -80,6 +82,7 @@ module Image = struct
           let filename =
             if dir = "" then filename else Filename.concat dir filename
           in
+          pre ("Trying: " ^ filename);
           try Some Dl.(dlopen ~filename ~flags:[ RTLD_NOW ])
           with _ -> loop rest)
     in
