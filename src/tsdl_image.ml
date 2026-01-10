@@ -8,11 +8,12 @@ open Tsdl
 module Image = struct
   type 'a result = 'a Sdl.result
 
-  let debug = false (* set this to false before release *)
+  (* Set [debug] to true to print the foreign symbols in the CI. Don't forget to
+     set this to false before release. *)
+  let debug = true
+  let pre = if debug then print_endline else ignore
   let error () = Error (`Msg (Sdl.get_error ()))
   let bool = view ~read:(( <> ) 0) ~write:(fun b -> compare b false) int
-
-  (* TODO SDL_IMAGE_VERSION *)
 
   module Init = struct
     type t = Unsigned.uint32
@@ -94,8 +95,37 @@ module Image = struct
             None)
 
   let foreign = foreign ?from
-  let init = foreign "IMG_Init" (uint32_t @-> returning uint32_t)
-  let quit = foreign "IMG_Quit" (void @-> returning void)
+
+  let init =
+    pre "IMG_Init";
+    foreign "IMG_Init" (uint32_t @-> returning uint32_t)
+
+  let quit =
+    pre "IMG_Quit";
+    foreign "IMG_Quit" (void @-> returning void)
+
+  let version = structure "SDL_version"
+  let version_major = field version "major" uint8_t
+  let version_minor = field version "minor" uint8_t
+  let version_patch = field version "patch" uint8_t
+  let () = seal version
+
+  let linked_version =
+    pre "IMG_Linked_Version";
+    foreign "IMG_Linked_Version" (void @-> returning (ptr version))
+
+  let linked_version () =
+    let get v f = Unsigned.UInt8.to_int (getf v f) in
+    let v = linked_version () in
+    let v = !@v in
+    (get v version_major, get v version_minor, get v version_patch)
+
+  let version = linked_version ()
+
+  let () =
+    if debug then
+      let a, b, c = version in
+      Sdl.log "SDL_image Version (%u,%u,%u)" a b c
 
   let surface =
     view ~read:Sdl.unsafe_surface_of_ptr ~write:Sdl.unsafe_ptr_of_surface
@@ -129,9 +159,12 @@ module Image = struct
     view ~read:Sdl.unsafe_renderer_of_ptr ~write:Sdl.unsafe_ptr_of_renderer
       nativeint
 
-  let load = foreign "IMG_Load" (string @-> returning surface_result)
+  let load =
+    pre "IMG_Load";
+    foreign "IMG_Load" (string @-> returning surface_result)
 
   let load_rw =
+    pre "IMG_Load_RW";
     foreign "IMG_Load_RW" (rw_ops @-> bool @-> returning surface_result)
 
   type format =
@@ -171,40 +204,88 @@ module Image = struct
     | Tga -> "TGA"
 
   let load_typed_rw =
+    pre "IMG_LoadTyped_RW";
     foreign "IMG_LoadTyped_RW"
       (rw_ops @-> bool @-> string @-> returning surface_result)
 
   let load_typed_rw r b f = load_typed_rw r b (string_of_format f)
 
   let load_texture =
+    pre "IMG_LoadTexture";
     foreign "IMG_LoadTexture" (renderer @-> string @-> returning texture_result)
 
   let load_texture_rw =
+    pre "IMG_LoadTexture_RW";
     foreign "IMG_LoadTexture_RW"
       (renderer @-> rw_ops @-> bool @-> returning texture_result)
 
   let load_texture_typed_rw =
+    pre "IMG_LoadTextureTyped_RW";
     foreign "IMG_LoadTextureTyped_RW"
       (renderer @-> rw_ops @-> bool @-> string @-> returning texture_result)
 
   let load_texture_typed_rw r o b f =
     load_texture_typed_rw r o b (string_of_format f)
 
-  let is_ico = foreign "IMG_isICO" (rw_ops @-> returning bool)
-  let is_cur = foreign "IMG_isCUR" (rw_ops @-> returning bool)
-  let is_bmp = foreign "IMG_isBMP" (rw_ops @-> returning bool)
-  let is_gif = foreign "IMG_isGIF" (rw_ops @-> returning bool)
-  let is_jpg = foreign "IMG_isJPG" (rw_ops @-> returning bool)
-  let is_lbm = foreign "IMG_isLBM" (rw_ops @-> returning bool)
-  let is_pcx = foreign "IMG_isPCX" (rw_ops @-> returning bool)
-  let is_png = foreign "IMG_isPNG" (rw_ops @-> returning bool)
-  let is_pnm = foreign "IMG_isPNM" (rw_ops @-> returning bool)
-  let is_svg = foreign "IMG_isSVG" (rw_ops @-> returning bool)
-  let is_tif = foreign "IMG_isTIF" (rw_ops @-> returning bool)
-  let is_xcf = foreign "IMG_isXCF" (rw_ops @-> returning bool)
-  let is_xpm = foreign "IMG_isXPM" (rw_ops @-> returning bool)
-  let is_xv = foreign "IMG_isXV" (rw_ops @-> returning bool)
-  let is_webp = foreign "IMG_isWEBP" (rw_ops @-> returning bool)
+  let is_ico =
+    pre "IMG_isICO";
+    foreign "IMG_isICO" (rw_ops @-> returning bool)
+
+  let is_cur =
+    pre "IMG_isCUR";
+    foreign "IMG_isCUR" (rw_ops @-> returning bool)
+
+  let is_bmp =
+    pre "IMG_isBMP";
+    foreign "IMG_isBMP" (rw_ops @-> returning bool)
+
+  let is_gif =
+    pre "IMG_isGIF";
+    foreign "IMG_isGIF" (rw_ops @-> returning bool)
+
+  let is_jpg =
+    pre "IMG_isJPG";
+    foreign "IMG_isJPG" (rw_ops @-> returning bool)
+
+  let is_lbm =
+    pre "IMG_isLBM";
+    foreign "IMG_isLBM" (rw_ops @-> returning bool)
+
+  let is_pcx =
+    pre "IMG_isPCX";
+    foreign "IMG_isPCX" (rw_ops @-> returning bool)
+
+  let is_png =
+    pre "IMG_isPNG";
+    foreign "IMG_isPNG" (rw_ops @-> returning bool)
+
+  let is_pnm =
+    pre "IMG_isPNM";
+    foreign "IMG_isPNM" (rw_ops @-> returning bool)
+
+  let is_svg =
+    pre "IMG_isSVG";
+    foreign "IMG_isSVG" (rw_ops @-> returning bool)
+
+  let is_tif =
+    pre "IMG_isTIF";
+    foreign "IMG_isTIF" (rw_ops @-> returning bool)
+
+  let is_xcf =
+    pre "IMG_isXCF";
+    foreign "IMG_isXCF" (rw_ops @-> returning bool)
+
+  let is_xpm =
+    pre "IMG_isXPM";
+    foreign "IMG_isXPM" (rw_ops @-> returning bool)
+
+  let is_xv =
+    pre "IMG_isXV";
+    foreign "IMG_isXV" (rw_ops @-> returning bool)
+
+  let is_webp =
+    pre "IMG_isWEBP";
+    foreign "IMG_isWEBP" (rw_ops @-> returning bool)
 
   let is_format fmt =
     match fmt with
@@ -226,50 +307,67 @@ module Image = struct
     | Tga -> failwith "TGA cannot safely be detected"
 
   let load_ico_rw =
+    pre "IMG_LoadICO_RW";
     foreign "IMG_LoadICO_RW" (rw_ops @-> returning surface_result)
 
   let load_cur_rw =
+    pre "IMG_LoadCUR_RW";
     foreign "IMG_LoadCUR_RW" (rw_ops @-> returning surface_result)
 
   let load_bmp_rw =
+    pre "IMG_LoadBMP_RW";
     foreign "IMG_LoadBMP_RW" (rw_ops @-> returning surface_result)
 
   let load_gif_rw =
+    pre "IMG_LoadGIF_RW";
     foreign "IMG_LoadGIF_RW" (rw_ops @-> returning surface_result)
 
   let load_jpg_rw =
+    pre "IMG_LoadJPG_RW";
     foreign "IMG_LoadJPG_RW" (rw_ops @-> returning surface_result)
 
   let load_lbm_rw =
+    pre "IMG_LoadLBM_RW";
     foreign "IMG_LoadLBM_RW" (rw_ops @-> returning surface_result)
 
   let load_pcx_rw =
+    pre "IMG_LoadPCX_RW";
     foreign "IMG_LoadPCX_RW" (rw_ops @-> returning surface_result)
 
   let load_png_rw =
+    pre "IMG_LoadPNG_RW";
     foreign "IMG_LoadPNG_RW" (rw_ops @-> returning surface_result)
 
   let load_pnm_rw =
+    pre "IMG_LoadPNM_RW";
     foreign "IMG_LoadPNM_RW" (rw_ops @-> returning surface_result)
 
   let load_tga_rw =
+    pre "IMG_LoadTGA_RW";
     foreign "IMG_LoadTGA_RW" (rw_ops @-> returning surface_result)
 
   let load_svg_rw =
+    pre "IMG_LoadSVG_RW";
     foreign "IMG_LoadSVG_RW" (rw_ops @-> returning surface_result)
 
   let load_tif_rw =
+    pre "IMG_LoadTIF_RW";
     foreign "IMG_LoadTIF_RW" (rw_ops @-> returning surface_result)
 
   let load_xcf_rw =
+    pre "IMG_LoadXCF_RW";
     foreign "IMG_LoadXCF_RW" (rw_ops @-> returning surface_result)
 
   let load_xpm_rw =
+    pre "IMG_LoadXPM_RW";
     foreign "IMG_LoadXPM_RW" (rw_ops @-> returning surface_result)
 
-  let load_xv_rw = foreign "IMG_LoadXV_RW" (rw_ops @-> returning surface_result)
+  let load_xv_rw =
+    pre "IMG_LoadXV_RW";
+    foreign "IMG_LoadXV_RW" (rw_ops @-> returning surface_result)
 
   let load_webp_rw =
+    pre "IMG_LoadWEBP_RW";
     foreign "IMG_LoadWEBP_RW" (rw_ops @-> returning surface_result)
 
   let load_format_rw = function
@@ -291,17 +389,23 @@ module Image = struct
     | Tga -> load_tga_rw
 
   let read_xpm_from_array =
+    pre "IMG_ReadXPMFromArray";
     foreign "IMG_ReadXPMFromArray" (string @-> returning surface_result)
 
-  let save_png = foreign "IMG_SavePNG" (surface @-> string @-> returning int)
+  let save_png =
+    pre "IMG_SavePNG";
+    foreign "IMG_SavePNG" (surface @-> string @-> returning int)
 
   let save_png_rw =
+    pre "IMG_SavePNG_RW";
     foreign "IMG_SavePNG_RW" (surface @-> rw_ops @-> bool @-> returning int)
 
   let save_jpg =
+    pre "IMG_SaveJPG";
     foreign "IMG_SaveJPG" (surface @-> string @-> int @-> returning int)
 
   let save_jpg_rw =
+    pre "IMG_SaveJPG_RW";
     foreign "IMG_SaveJPG_RW"
       (surface @-> rw_ops @-> bool @-> int @-> returning int)
 end
