@@ -50,13 +50,13 @@ module Image = struct
            Build_config.system));
     let env = try Sys.getenv "LIBSDL2_PATH" with Not_found -> "" in
     let filename, path =
-      pre ("Build_config.system = " ^ (Build_config.system));
+      pre ("Build_config.system = " ^ Build_config.system);
       match Build_config.system with
       | "macosx" -> ("libSDL2_image-2.0.0.dylib", [ "/opt/homebrew/lib/" ])
       | "win32" | "win64" ->
           (* On native Windows DLLs are loaded from the PATH *)
           ("SDL2_image.dll", [ "" ])
-      | "cygwin" | "mingw" ->
+      | "cygwin" | "mingw" | "mingw64" ->
           (* For Windows POSIX emulators (Cygwin and MSYS2), hardcoded
              locations are available in addition to the PATH *)
           ( "SDL2_image.dll",
