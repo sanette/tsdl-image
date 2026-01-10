@@ -15,7 +15,7 @@ jobs:
           - windows-latest
         ocaml-compiler:
           - 5
-          - 4.13.x
+          - 4.14.x
 
     runs-on: ${{ matrix.os }}
 
@@ -31,6 +31,8 @@ jobs:
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
+      - run: opam pin https://github.com/sanette/tsdl.git
+
       - run: opam install . --deps-only --with-doc --with-test
 
       - run: opam exec -- dune build
@@ -39,7 +41,8 @@ jobs:
 
       - run: opam install .
 
-      - run: eval $(opam env); cd test; ocaml top.ml
+      - shell: bash
+        run: eval $(opam env); cd test; ocaml top.ml
 
 
   lint-fmt:
@@ -48,7 +51,7 @@ jobs:
       - name: Checkout tree
         uses: actions/checkout@v6
 
-      - name: Use OCaml 4.13.x
+      - name: Use OCaml 4.14.x
         uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: 5
