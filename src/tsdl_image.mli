@@ -8,7 +8,7 @@
 
     - {{:https://github.com/sanette/tsdl-image} source on github}
 
-    - {{:https://wiki.libsdl.org/SDL_image/} SDL_image API} *)
+    - {{:https://wiki.libsdl.org/SDL2_image} SDL_image API} *)
 module Image : sig
   type 'a result = 'a Tsdl.Sdl.result
 
