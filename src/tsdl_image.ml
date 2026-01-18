@@ -41,10 +41,14 @@ module Image = struct
       Some dir
     with _ -> None
 
-  (* This "hack" seems to be necessary for linux if you want to use
-     #require "tsdl-image"
-     in the toplevel, see
-     https://github.com/ocamllabs/ocaml-ctypes/issues/70 *)
+  (* Dynamic loading at runtime solves two issues:
+     + On linux if you want to use #require "tsdl-image"
+       in the toplevel, see
+       https://github.com/ocamllabs/ocaml-ctypes/issues/70
+     + On Windows, linking with pkg-config flags raises the issue
+       of the wrong flags "-mwindows" "SDLMain", see
+       https://github.com/ocaml/flexdll/issues/163#issuecomment-3732220603
+  *)
   let from : Dl.library option =
     (if debug then
        Sdl.(
@@ -52,17 +56,17 @@ module Image = struct
            Build_config.system));
     let env = try Sys.getenv "LIBSDL2_PATH" with Not_found -> "" in
     let filename, path =
+      (* In principle only the basename is enough because the appropriate PATH
+         is used if SDL2_image was installed properly. We provide below more
+         hardcoded paths for non-standard installs where PATH is not correctly
+         set. *)
       pre ("Build_config.system = " ^ Build_config.system);
-      match Build_config.system with
-      | "macosx" ->
-          ( "libSDL2_image-2.0.0.dylib",
-            [ "/opt/homebrew/lib/"; "/opt/local/lib/" ] )
-      | "win32" | "win64" ->
-          (* On native Windows DLLs are loaded from the PATH *)
-          ("SDL2_image.dll", [ "" ])
-      | "cygwin" | "mingw" | "mingw64" ->
-          (* For Windows POSIX emulators (Cygwin and MSYS2), hardcoded
-             locations are available in addition to the PATH *)
+      match (Sys.os_type, Build_config.system) with
+      | _, "macosx" ->
+          ( "libSDL2_image.dylib",
+            [ ""; "/opt/homebrew/lib/"; "/opt/local/lib/"; "/usr/local/lib/" ]
+          )
+      | "Win32", _ | "Cygwin", _ ->
           ( "SDL2_image.dll",
             [
               "";
@@ -77,8 +81,8 @@ module Image = struct
               "/mingw32/bin";
             ] )
       | _ ->
-          ( "libSDL2_image-2.0.so.0",
-            [ "/usr/lib/x86_64-linux-gnu/"; "/usr/local/lib" ] )
+          ( "libSDL2_image.so",
+            [ ""; "/usr/lib/x86_64-linux-gnu/"; "/usr/local/lib" ] )
     in
     let rec loop = function
       | [] -> None
