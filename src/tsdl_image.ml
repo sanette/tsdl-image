@@ -253,7 +253,9 @@ module Image = struct
 
   let is_avif =
     pre "IMG_isAVIF";
-    foreign "IMG_isAVIF" (rw_ops @-> returning bool)
+    if version >= (2, 6, 0) then foreign "IMG_isAVIF" (rw_ops @-> returning bool)
+    else fun _ ->
+      failwith "IMG_isAVIF not implemented (need SDL_image >= 2.6.0)"
 
   let is_cur =
     pre "IMG_isCUR";
@@ -277,7 +279,8 @@ module Image = struct
 
   let is_jxl =
     pre "IMG_isJXL";
-    foreign "IMG_isJXL" (rw_ops @-> returning bool)
+    if version >= (2, 6, 0) then foreign "IMG_isJXL" (rw_ops @-> returning bool)
+    else fun _ -> failwith "IMG_isJXL not implemented (need SDL_image >= 2.6.0)"
 
   let is_lbm =
     pre "IMG_isLBM";
@@ -297,7 +300,8 @@ module Image = struct
 
   let is_qoi =
     pre "IMG_isQOI";
-    foreign "IMG_isQOI" (rw_ops @-> returning bool)
+    if version >= (2, 6, 0) then foreign "IMG_isQOI" (rw_ops @-> returning bool)
+    else fun _ -> failwith "IMG_isQOI not implemented (need SDL_image >= 2.6.0)"
 
   let is_svg =
     pre "IMG_isSVG";
