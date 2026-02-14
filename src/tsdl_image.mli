@@ -37,10 +37,10 @@ module Image : sig
 
   type format =
     | Avif
-    | Ico
     | Cur
     | Bmp
     | Gif
+    | Ico
     | Jpg
     | Jxl
     | Lbm
@@ -49,12 +49,12 @@ module Image : sig
     | Pnm
     | Svg
     | Qoi
+    | Tga
     | Tif
     | Xcf
     | Xpm
     | Xv
     | Webp
-    | Tga
 
   (** {1 Loading} *)
 
