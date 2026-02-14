@@ -2,7 +2,7 @@ tsdl-image — SDL2\_Image bindings for OCaml with Tsdl
 ------------------------------------------------------
 
 Tsdl\_image provides bindings to
-[SDL2_Image](https://wiki.libsdl.org/SDL_image/) intended to
+[SDL2_Image](https://wiki.libsdl.org/SDL2_image) intended to
 be used with [Tsdl](http://erratique.ch/software/tsdl).
 
 It has as siblings [tsdl-mixer](https://github.com/sanette/tsdl-mixer)
@@ -19,9 +19,24 @@ Via [opam](https://opam.ocaml.org/):
 
     opam install tsdl-image
 
+or, to get the latest version:
+
+	opam pin https://github.com/sanette/tsdl-image
+
+## Tested on Linux, MacOS, Windows (mingw64)
+
+Should work for any version of SDL2\_image >= 2.0.2.
+
+On Windows, before installing, you may need to select this `tsdl` version:
+
+	opam pin https://github.com/sanette/tsdl
+
 ## Example
 
 See [test/test.ml](https://github.com/sanette/tsdl-image/blob/master/test/test.ml)
+
+	cd test
+	dune exec ./text.exe
 
 ## Documentation
 
@@ -29,7 +44,7 @@ Documentation is
 [here](https://sanette.github.io/tsdl-image/Image/index.html). It can
 be generated with `dune build @doc`, but the binding follows the
 SDL2_image interface closely, so it may be sufficient to consult
-[its documentation](https://wiki.libsdl.org/SDL_image/).
+[its documentation](https://wiki.libsdl.org/SDL2_image).
 
 Starting from version 0.3, the library is usable in a toplevel (with
 `#require "tsdl-image"`).
@@ -41,5 +56,8 @@ name `tsdl-image`. (The library name used to be `tsdl_image`, which
 was confusing).
 
 ## CI
+
+(This CI uses the official `tsdl`. For Windows with the modified
+`tsdl`, see the Github actions.)
 
 https://ci.ocamllabs.io/github/sanette/tsdl-image
