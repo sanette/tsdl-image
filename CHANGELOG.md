@@ -1,5 +1,8 @@
 # Pending
 
+* (@jonahbeckford) Allow exact location of `libSDL2_image-2.0.so.0` to be set in
+  `LIBSDL2_IMAGE_SHLIB` for situations where you have a debug shared
+  library or you don't want `pkg-config` invoked.
 * attempt to make it run under Windows: add "-link" before "-mwindows" for mingw
 * (@linsyking) https://github.com/sanette/tsdl-image/pull/10
   add functions from SDL_IMAGE 2.0.2

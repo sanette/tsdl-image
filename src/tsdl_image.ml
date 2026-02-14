@@ -51,7 +51,7 @@ module Image = struct
        of the wrong flags "-mwindows" "SDLMain", see
        https://github.com/ocaml/flexdll/issues/163#issuecomment-3732220603
   *)
-  let from : Dl.library option =
+  let perform_search () : Dl.library option =
     (if debug then
        Sdl.(
          log_info Log.category_system "Loading Sdl_image, Target = %s"
@@ -106,6 +106,11 @@ module Image = struct
             print_endline
               ("Cannot find " ^ filename ^ ", please set LIBSDL2_PATH");
             None)
+
+  let from : Dl.library option =
+    let shlib = try Sys.getenv "LIBSDL2_IMAGE_SHLIB" with Not_found -> "" in
+    if shlib = "" then perform_search ()
+    else Some Dl.(dlopen ~filename:shlib ~flags:[ RTLD_NOW ])
 
   let foreign = foreign ?from
 
@@ -213,8 +218,8 @@ module Image = struct
     | Pcx -> "PCX"
     | Png -> "PNG"
     | Pnm -> "PNM"
-    | Svg -> "SVG"
     | Qoi -> "QOI"
+    | Svg -> "SVG"
     | Tga -> "TGA"
     | Tif -> "TIF"
     | Xcf -> "XCF"
