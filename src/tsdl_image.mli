@@ -75,7 +75,7 @@ module Image : sig
   val load_texture_rw :
     Tsdl.Sdl.renderer -> Tsdl.Sdl.rw_ops -> bool -> Tsdl.Sdl.texture result
   (** {{:https://wiki.libsdl.org/SDL2_image/IMG_LoadTexture_RW}
-        IMG_LoadTexture_RW} *)
+       IMG_LoadTexture_RW} *)
 
   val load_texture_typed_rw :
     Tsdl.Sdl.renderer ->
@@ -91,7 +91,7 @@ module Image : sig
   val load_sized_svg_rw :
     Tsdl.Sdl.rw_ops -> int -> int -> Tsdl.Sdl.surface result
   (** {{:https://wiki.libsdl.org/SDL2_image/IMG_LoadSizedSVG_RW}
-        IMG_LoadSizedSVG_RW} *)
+       IMG_LoadSizedSVG_RW} *)
 
   val read_xpm_from_array : string -> Tsdl.Sdl.surface result
   (** {{:https://wiki.libsdl.org/SDL_image/IMG_ReadXPMFromArray}

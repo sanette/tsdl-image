@@ -251,10 +251,10 @@ module Image = struct
   let load_texture_typed_rw r o b f =
     load_texture_typed_rw r o b (string_of_format f)
 
-  let is_avif = 
+  let is_avif =
     pre "IMG_isAVIF";
     foreign "IMG_isAVIF" (rw_ops @-> returning bool)
-  
+
   let is_cur =
     pre "IMG_isCUR";
     foreign "IMG_isCUR" (rw_ops @-> returning bool)
@@ -275,10 +275,10 @@ module Image = struct
     pre "IMG_isJPG";
     foreign "IMG_isJPG" (rw_ops @-> returning bool)
 
-  let is_jxl = 
+  let is_jxl =
     pre "IMG_isJXL";
     foreign "IMG_isJXL" (rw_ops @-> returning bool)
-  
+
   let is_lbm =
     pre "IMG_isLBM";
     foreign "IMG_isLBM" (rw_ops @-> returning bool)
@@ -295,7 +295,7 @@ module Image = struct
     pre "IMG_isPNM";
     foreign "IMG_isPNM" (rw_ops @-> returning bool)
 
-  let is_qoi = 
+  let is_qoi =
     pre "IMG_isQOI";
     foreign "IMG_isQOI" (rw_ops @-> returning bool)
 
@@ -339,7 +339,7 @@ module Image = struct
     | Qoi -> is_qoi
     | Svg -> is_svg
     | Tga -> failwith "TGA cannot safely be detected"
-    | Tif -> is_tif  
+    | Tif -> is_tif
     | Xcf -> is_xcf
     | Xpm -> is_xpm
     | Xv -> is_xv
@@ -360,11 +360,11 @@ module Image = struct
   let load_gif_rw =
     pre "IMG_LoadGIF_RW";
     foreign "IMG_LoadGIF_RW" (rw_ops @-> returning surface_result)
-    
+
   let load_ico_rw =
     pre "IMG_LoadICO_RW";
     foreign "IMG_LoadICO_RW" (rw_ops @-> returning surface_result)
-    
+
   let load_jpg_rw =
     pre "IMG_LoadJPG_RW";
     foreign "IMG_LoadJPG_RW" (rw_ops @-> returning surface_result)
@@ -390,7 +390,7 @@ module Image = struct
 
   let load_qoi_rw =
     foreign "IMG_LoadQOI_RW" (rw_ops @-> returning surface_result)
-    
+
   let load_tga_rw =
     pre "IMG_LoadTGA_RW";
     foreign "IMG_LoadTGA_RW" (rw_ops @-> returning surface_result)
