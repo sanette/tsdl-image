@@ -182,10 +182,10 @@ module Image = struct
 
   type format =
     | Avif
-    | Ico
     | Cur
     | Bmp
     | Gif
+    | Ico
     | Jpg
     | Jxl
     | Lbm
@@ -194,19 +194,19 @@ module Image = struct
     | Pnm
     | Svg
     | Qoi
+    | Tga
     | Tif
     | Xcf
     | Xpm
     | Xv
     | Webp
-    | Tga
 
   let string_of_format = function
     | Avif -> "AVIF"
-    | Ico -> "ICO"
     | Cur -> "CUR"
     | Bmp -> "BMP"
     | Gif -> "GIF"
+    | Ico -> "ICO"
     | Jpg -> "JPG"
     | Jxl -> "JXL"
     | Lbm -> "LBM"
@@ -215,12 +215,12 @@ module Image = struct
     | Pnm -> "PNM"
     | Svg -> "SVG"
     | Qoi -> "QOI"
+    | Tga -> "TGA"
     | Tif -> "TIF"
     | Xcf -> "XCF"
     | Xpm -> "XPM"
     | Xv -> "XV"
     | Webp -> "WEBP"
-    | Tga -> "TGA"
 
   let load_typed_rw =
     pre "IMG_LoadTyped_RW";
@@ -246,30 +246,10 @@ module Image = struct
   let load_texture_typed_rw r o b f =
     load_texture_typed_rw r o b (string_of_format f)
 
-  let is_avif = foreign "IMG_isAVIF" (rw_ops @-> returning bool)
-  let is_ico = foreign "IMG_isICO" (rw_ops @-> returning bool)
-  let is_cur = foreign "IMG_isCUR" (rw_ops @-> returning bool)
-  let is_bmp = foreign "IMG_isBMP" (rw_ops @-> returning bool)
-  let is_gif = foreign "IMG_isGIF" (rw_ops @-> returning bool)
-  let is_jpg = foreign "IMG_isJPG" (rw_ops @-> returning bool)
-  let is_jxl = foreign "IMG_isJXL" (rw_ops @-> returning bool)
-  let is_lbm = foreign "IMG_isLBM" (rw_ops @-> returning bool)
-  let is_pcx = foreign "IMG_isPCX" (rw_ops @-> returning bool)
-  let is_png = foreign "IMG_isPNG" (rw_ops @-> returning bool)
-  let is_pnm = foreign "IMG_isPNM" (rw_ops @-> returning bool)
-  let is_svg = foreign "IMG_isSVG" (rw_ops @-> returning bool)
-  let is_qoi = foreign "IMG_isQOI" (rw_ops @-> returning bool)
-  let is_tif = foreign "IMG_isTIF" (rw_ops @-> returning bool)
-  let is_xcf = foreign "IMG_isXCF" (rw_ops @-> returning bool)
-  let is_xpm = foreign "IMG_isXPM" (rw_ops @-> returning bool)
-  let is_xv = foreign "IMG_isXV" (rw_ops @-> returning bool)
-  let is_webp = foreign "IMG_isWEBP" (rw_ops @-> returning bool)
-  let is_avif = foreign "IMG_isAVIF" (rw_ops @-> returning bool)
-
-  let is_ico =
-    pre "IMG_isICO";
-    foreign "IMG_isICO" (rw_ops @-> returning bool)
-
+  let is_avif = 
+    pre "IMG_isAVIF";
+    foreign "IMG_isAVIF" (rw_ops @-> returning bool)
+  
   let is_cur =
     pre "IMG_isCUR";
     foreign "IMG_isCUR" (rw_ops @-> returning bool)
@@ -282,10 +262,18 @@ module Image = struct
     pre "IMG_isGIF";
     foreign "IMG_isGIF" (rw_ops @-> returning bool)
 
+  let is_ico =
+    pre "IMG_isICO";
+    foreign "IMG_isICO" (rw_ops @-> returning bool)
+
   let is_jpg =
     pre "IMG_isJPG";
     foreign "IMG_isJPG" (rw_ops @-> returning bool)
 
+  let is_jxl = 
+    pre "IMG_isJXL";
+    foreign "IMG_isJXL" (rw_ops @-> returning bool)
+  
   let is_lbm =
     pre "IMG_isLBM";
     foreign "IMG_isLBM" (rw_ops @-> returning bool)
@@ -301,6 +289,10 @@ module Image = struct
   let is_pnm =
     pre "IMG_isPNM";
     foreign "IMG_isPNM" (rw_ops @-> returning bool)
+
+  let is_qoi = 
+    pre "IMG_isQOI";
+    foreign "IMG_isQOI" (rw_ops @-> returning bool)
 
   let is_svg =
     pre "IMG_isSVG";
@@ -329,31 +321,28 @@ module Image = struct
   let is_format fmt =
     match fmt with
     | Avif -> is_avif
-    | Ico -> is_ico
     | Cur -> is_cur
     | Bmp -> is_bmp
     | Gif -> is_gif
+    | Ico -> is_ico
     | Jpg -> is_jpg
     | Jxl -> is_jxl
     | Lbm -> is_lbm
     | Pcx -> is_pcx
     | Png -> is_png
     | Pnm -> is_pnm
-    | Svg -> is_svg
     | Qoi -> is_qoi
-    | Tif -> is_tif
+    | Svg -> is_svg
+    | Tga -> failwith "TGA cannot safely be detected"
+    | Tif -> is_tif  
     | Xcf -> is_xcf
     | Xpm -> is_xpm
     | Xv -> is_xv
     | Webp -> is_webp
-    | Tga -> failwith "TGA cannot safely be detected"
 
   let load_avif_rw =
+    pre "IMG_LoadAVIF_RW";
     foreign "IMG_LoadAVIF_RW" (rw_ops @-> returning surface_result)
-
-  let load_ico_rw =
-    pre "IMG_LoadICO_RW";
-    foreign "IMG_LoadICO_RW" (rw_ops @-> returning surface_result)
 
   let load_cur_rw =
     pre "IMG_LoadCUR_RW";
@@ -366,7 +355,11 @@ module Image = struct
   let load_gif_rw =
     pre "IMG_LoadGIF_RW";
     foreign "IMG_LoadGIF_RW" (rw_ops @-> returning surface_result)
-
+    
+  let load_ico_rw =
+    pre "IMG_LoadICO_RW";
+    foreign "IMG_LoadICO_RW" (rw_ops @-> returning surface_result)
+    
   let load_jpg_rw =
     pre "IMG_LoadJPG_RW";
     foreign "IMG_LoadJPG_RW" (rw_ops @-> returning surface_result)
@@ -390,12 +383,12 @@ module Image = struct
     pre "IMG_LoadPNM_RW";
     foreign "IMG_LoadPNM_RW" (rw_ops @-> returning surface_result)
 
+  let load_qoi_rw =
+    foreign "IMG_LoadQOI_RW" (rw_ops @-> returning surface_result)
+    
   let load_tga_rw =
     pre "IMG_LoadTGA_RW";
     foreign "IMG_LoadTGA_RW" (rw_ops @-> returning surface_result)
-
-  let load_qoi_rw =
-    foreign "IMG_LoadQOI_RW" (rw_ops @-> returning surface_result)
 
   let load_svg_rw =
     pre "IMG_LoadSVG_RW";
@@ -423,26 +416,27 @@ module Image = struct
 
   let load_format_rw = function
     | Avif -> load_avif_rw
-    | Ico -> load_ico_rw
     | Cur -> load_cur_rw
     | Bmp -> load_bmp_rw
     | Gif -> load_gif_rw
+    | Ico -> load_ico_rw
     | Jpg -> load_jpg_rw
     | Jxl -> load_jxl_rw
     | Lbm -> load_lbm_rw
     | Pcx -> load_pcx_rw
     | Png -> load_png_rw
     | Pnm -> load_pnm_rw
-    | Svg -> load_svg_rw
     | Qoi -> load_qoi_rw
+    | Svg -> load_svg_rw
+    | Tga -> load_tga_rw
     | Tif -> load_tif_rw
     | Xcf -> load_xcf_rw
     | Xpm -> load_xpm_rw
     | Xv -> load_xv_rw
     | Webp -> load_webp_rw
-    | Tga -> load_tga_rw
 
   let load_sized_svg_rw =
+    pre "IMG_LoadSizedSVG_RW";
     foreign "IMG_LoadSizedSVG_RW"
       (rw_ops @-> int @-> int @-> returning surface_result)
 
@@ -459,6 +453,7 @@ module Image = struct
     foreign "IMG_SavePNG_RW" (surface @-> rw_ops @-> bool @-> returning int)
 
   let save_jpg =
+    pre "IMG_SaveJPG";
     foreign "IMG_SaveJPG" (surface @-> string @-> int @-> returning int)
 
   let save_jpg_rw =
