@@ -25,6 +25,8 @@ module Image : sig
     val png : t
     val tif : t
     val webp : t
+    val jxl : t
+    val avif : t
   end
 
   val init : Init.t -> Init.t
@@ -34,16 +36,19 @@ module Image : sig
   (** {{:https://wiki.libsdl.org/SDL_image/IMG_Quit} IMG_Quit} *)
 
   type format =
+    | Avif
     | Ico
     | Cur
     | Bmp
     | Gif
     | Jpg
+    | Jxl
     | Lbm
     | Pcx
     | Png
     | Pnm
     | Svg
+    | Qoi
     | Tif
     | Xcf
     | Xpm
@@ -70,7 +75,7 @@ module Image : sig
   val load_texture_rw :
     Tsdl.Sdl.renderer -> Tsdl.Sdl.rw_ops -> bool -> Tsdl.Sdl.texture result
   (** {{:https://wiki.libsdl.org/SDL2_image/IMG_LoadTexture_RW}
-       IMG_LoadTexture_RW} *)
+        IMG_LoadTexture_RW} *)
 
   val load_texture_typed_rw :
     Tsdl.Sdl.renderer ->
@@ -82,6 +87,11 @@ module Image : sig
        IMG_LoadTextureTyped_RW} *)
 
   val load_format_rw : format -> Tsdl.Sdl.rw_ops -> Tsdl.Sdl.surface result
+
+  val load_sized_svg_rw :
+    Tsdl.Sdl.rw_ops -> int -> int -> Tsdl.Sdl.surface result
+  (** {{:https://wiki.libsdl.org/SDL2_image/IMG_LoadSizedSVG_RW}
+        IMG_LoadSizedSVG_RW} *)
 
   val read_xpm_from_array : string -> Tsdl.Sdl.surface result
   (** {{:https://wiki.libsdl.org/SDL_image/IMG_ReadXPMFromArray}
