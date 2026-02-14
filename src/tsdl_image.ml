@@ -185,6 +185,9 @@ module Image = struct
     pre "IMG_Load_RW";
     foreign "IMG_Load_RW" (rw_ops @-> bool @-> returning surface_result)
 
+  (* Use [ocaml_load] instead of [load] to workaround a bug in ocaml CI with
+     debian-13-X.X_x86_32_X probably due to missing png library when compiling
+     SDL_image...  *)
   let ocaml_load filename =
     let ic = open_in_bin filename in
     let len = in_channel_length ic in
@@ -193,9 +196,6 @@ module Image = struct
     Result.bind
       (Sdl.rw_from_mem (Bytes.of_string data))
       (fun rw -> load_rw rw true)
-  (* match Sdl.rw_from_mem (Bytes.of_string data) with *)
-  (* | Error (`Msg e) -> Error (`Msg e) *)
-  (* | Ok rw -> load_rw rw true *)
 
   type format =
     | Avif
