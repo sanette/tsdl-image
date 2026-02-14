@@ -8,7 +8,7 @@
 
     - {{:https://github.com/sanette/tsdl-image} source on github}
 
-    - {{:https://wiki.libsdl.org/SDL_image/} SDL_image API} *)
+    - {{:https://wiki.libsdl.org/SDL2_image} SDL_image API} *)
 module Image : sig
   type 'a result = 'a Tsdl.Sdl.result
 
@@ -25,6 +25,8 @@ module Image : sig
     val png : t
     val tif : t
     val webp : t
+    val jxl : t
+    val avif : t
   end
 
   val init : Init.t -> Init.t
@@ -34,22 +36,25 @@ module Image : sig
   (** {{:https://wiki.libsdl.org/SDL_image/IMG_Quit} IMG_Quit} *)
 
   type format =
-    | Ico
+    | Avif
     | Cur
     | Bmp
     | Gif
+    | Ico
     | Jpg
+    | Jxl
     | Lbm
     | Pcx
     | Png
     | Pnm
     | Svg
+    | Qoi
+    | Tga
     | Tif
     | Xcf
     | Xpm
     | Xv
     | Webp
-    | Tga
 
   (** {1 Loading} *)
 
@@ -61,7 +66,8 @@ module Image : sig
 
   val load_typed_rw :
     Tsdl.Sdl.rw_ops -> bool -> format -> Tsdl.Sdl.surface result
-  (** {{:https://wiki.libsdl.org/SDL_image/IMG_LoadTyped_RW} IMG_LoadTyped_RW} *)
+  (** {{:https://wiki.libsdl.org/SDL_image/IMG_LoadTyped_RW} IMG_LoadTyped_RW}
+  *)
 
   val load_texture : Tsdl.Sdl.renderer -> string -> Tsdl.Sdl.texture result
   (** {{:https://wiki.libsdl.org/SDL2_image/IMG_LoadTexture} IMG_LoadTexture} *)
@@ -78,13 +84,18 @@ module Image : sig
     format ->
     Tsdl.Sdl.texture result
   (** {{:https://wiki.libsdl.org/SDL2_image/IMG_LoadTextureTyped_RW}
-        IMG_LoadTextureTyped_RW} *)
+       IMG_LoadTextureTyped_RW} *)
 
   val load_format_rw : format -> Tsdl.Sdl.rw_ops -> Tsdl.Sdl.surface result
 
+  val load_sized_svg_rw :
+    Tsdl.Sdl.rw_ops -> int -> int -> Tsdl.Sdl.surface result
+  (** {{:https://wiki.libsdl.org/SDL2_image/IMG_LoadSizedSVG_RW}
+        IMG_LoadSizedSVG_RW} *)
+
   val read_xpm_from_array : string -> Tsdl.Sdl.surface result
   (** {{:https://wiki.libsdl.org/SDL_image/IMG_ReadXPMFromArray}
-        IMG_ReadXPMFromArray} *)
+       IMG_ReadXPMFromArray} *)
 
   (** {1 Saving} *)
 
@@ -104,7 +115,7 @@ module Image : sig
 
   val is_format : format -> Tsdl.Sdl.rw_ops -> bool
   (** {{:https://wiki.libsdl.org/SDL_image/IMG_isAVIF#related_functions}
-        IMG_is*}
+       IMG_is*}
 
       Note that, uniquely, [is_format Tga] will throw an exception, as SDL_image
       does not support testing if a file is in Targa format. *)
