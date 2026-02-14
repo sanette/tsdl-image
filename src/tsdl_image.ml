@@ -457,8 +457,11 @@ module Image = struct
 
   let load_sized_svg_rw =
     pre "IMG_LoadSizedSVG_RW";
-    foreign "IMG_LoadSizedSVG_RW"
-      (rw_ops @-> int @-> int @-> returning surface_result)
+    if version >= (2, 6, 0) then
+      foreign "IMG_LoadSizedSVG_RW"
+        (rw_ops @-> int @-> int @-> returning surface_result)
+    else fun _ ->
+      failwith "IMG_LoadSizedSVG_RW not implemented (need SDL_image >= 2.6.0)"
 
   let read_xpm_from_array =
     pre "IMG_ReadXPMFromArray";

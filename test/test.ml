@@ -8,10 +8,9 @@ let ( >>= ) o f =
 
 let () =
   print_endline "Running test";
-  if Sys.getenv_opt "OCAMLCI" = Some "true"
-  then begin
+  if Sys.getenv_opt "OCAMLCI" = Some "true" then begin
     let st = Unix.stat "what.png" in
-    Printf.printf "st_kind = %d\n%!" (Obj.magic st.st_kind : int);
+    Printf.printf "st_kind = %d\n%!" (Obj.magic st.st_kind : int)
   end;
   ignore (Sdl.init Sdl.Init.everything);
   let flags = Image.Init.(jpg + png) in
