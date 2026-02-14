@@ -8,6 +8,11 @@ let ( >>= ) o f =
 
 let () =
   print_endline "Running test";
+  if Sys.getenv_opt "OCAMLCI" = Some "true"
+  then begin
+    print_endline "Waiting for CI to move files...";
+    Unix.sleep 2
+  end;
   ignore (Sdl.init Sdl.Init.everything);
   let flags = Image.Init.(jpg + png) in
   assert (Image.(Init.test (init flags) Init.png));
