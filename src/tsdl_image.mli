@@ -61,6 +61,8 @@ module Image : sig
   val load : string -> Tsdl.Sdl.surface result
   (** {{:https://wiki.libsdl.org/SDL_image/IMG_Load} IMG_Load} *)
 
+  val ocaml_load : string -> Tsdl.Sdl.surface result
+
   val load_rw : Tsdl.Sdl.rw_ops -> bool -> Tsdl.Sdl.surface result
   (** {{:https://wiki.libsdl.org/SDL_image/IMG_Load_RW} IMG_Load_RW} *)
 

@@ -185,6 +185,18 @@ module Image = struct
     pre "IMG_Load_RW";
     foreign "IMG_Load_RW" (rw_ops @-> bool @-> returning surface_result)
 
+  let ocaml_load filename =
+    let ic = open_in_bin filename in
+    let len = in_channel_length ic in
+    let data = really_input_string ic len in
+    close_in ic;
+    Result.bind
+      (Sdl.rw_from_mem (Bytes.of_string data))
+      (fun rw -> load_rw rw true)
+  (* match Sdl.rw_from_mem (Bytes.of_string data) with *)
+  (* | Error (`Msg e) -> Error (`Msg e) *)
+  (* | Ok rw -> load_rw rw true *)
+
   type format =
     | Avif
     | Cur
