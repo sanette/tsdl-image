@@ -351,7 +351,10 @@ module Image = struct
 
   let load_avif_rw =
     pre "IMG_LoadAVIF_RW";
-    foreign "IMG_LoadAVIF_RW" (rw_ops @-> returning surface_result)
+    if version >= (2, 6, 0) then
+      foreign "IMG_LoadAVIF_RW" (rw_ops @-> returning surface_result)
+    else fun _ ->
+      failwith "IMG_LoadAVIF_RW not implemented (need SDL_image >= 2.6.0)"
 
   let load_cur_rw =
     pre "IMG_LoadCUR_RW";
@@ -374,7 +377,11 @@ module Image = struct
     foreign "IMG_LoadJPG_RW" (rw_ops @-> returning surface_result)
 
   let load_jxl_rw =
-    foreign "IMG_LoadJXL_RW" (rw_ops @-> returning surface_result)
+    pre "IMG_LoadJXL_RW";
+    if version >= (2, 6, 0) then
+      foreign "IMG_LoadJXL_RW" (rw_ops @-> returning surface_result)
+    else fun _ ->
+      failwith "IMG_LoadJXL_RW not implemented (need SDL_image >= 2.6.0)"
 
   let load_lbm_rw =
     pre "IMG_LoadLBM_RW";
@@ -393,7 +400,11 @@ module Image = struct
     foreign "IMG_LoadPNM_RW" (rw_ops @-> returning surface_result)
 
   let load_qoi_rw =
-    foreign "IMG_LoadQOI_RW" (rw_ops @-> returning surface_result)
+    pre "IMG_LoadQOI_RW";
+    if version >= (2, 6, 0) then
+      foreign "IMG_LoadQOI_RW" (rw_ops @-> returning surface_result)
+    else fun _ ->
+      failwith "IMG_LoadQOI_RW not implemented (need SDL_image >= 2.6.0)"
 
   let load_tga_rw =
     pre "IMG_LoadTGA_RW";
