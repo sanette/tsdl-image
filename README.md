@@ -25,7 +25,9 @@ or, to get the latest version:
 
 ## Tested on Linux, MacOS, Windows (mingw64)
 
-Should work for any version of SDL2\_image >= 2.0.2.
+These bindings use dynamic loading of the SDL2\_image library at runtime.
+
+They should work for any version of SDL2\_image >= 2.0.2.
 
 On Windows, before installing, you may need to select this `tsdl` version:
 
